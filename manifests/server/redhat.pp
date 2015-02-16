@@ -6,14 +6,19 @@
 #
 class nfs::server::redhat inherits nfs::client::redhat {
 
+  $service_name = $::operatingsystemmajrelease ? {
+    /(5|6)/ => 'nfs',
+    7       => 'nfs-server',
+  }
+
   @concat {'/etc/exports':
     owner  => root,
     group  => root,
     mode   => '0644',
-    notify => Service['nfs-server'],
+    notify => Service[$service_name],
   }
 
-  service{ 'nfs-server':
+  service{ $service_name:
     ensure    => running,
     enable    => true,
     hasstatus => true,
