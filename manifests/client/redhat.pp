@@ -5,7 +5,7 @@ class nfs::client::redhat inherits nfs::base {
     ensure => present,
   }
 
-  if $::operatingsystemmajrelease == 6 or $::operatingsystemmajrelease == 7 {
+  if $::operatingsystemmajrelease == '6' or $::operatingsystemmajrelease == '7' {
 
     package {'rpcbind':
       ensure => present,
@@ -39,7 +39,7 @@ class nfs::client::redhat inherits nfs::base {
   }
 
   $nfslock_name = $::operatingsystemmajrelease ? {
-    7       => 'nfs-lock',
+    '7'     => 'nfs-lock',
     default => 'nfslock',
   }
 
@@ -51,7 +51,7 @@ class nfs::client::redhat inherits nfs::base {
   }
 
   $netfs_requirement = $::operatingsystemmajrelease ? {
-    6       => Service[$nfslock_name],
+    '6'     => Service[$nfslock_name],
     default => [Service['portmap'], Service[$nfslock_name]],
   }
 
