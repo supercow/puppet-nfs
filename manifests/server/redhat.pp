@@ -8,7 +8,7 @@ class nfs::server::redhat inherits nfs::client::redhat {
 
   $service_name = $::operatingsystemmajrelease ? {
     /(5|6)/ => 'nfs',
-    7       => 'nfs-server',
+    '7'     => 'nfs-server',
   }
 
   @concat {'/etc/exports':
